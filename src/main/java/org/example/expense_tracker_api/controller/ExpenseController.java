@@ -1,56 +1,53 @@
 package org.example.expense_tracker_api.controller;
 
-import org.example.expense_tracker_api.entity.Expense;
-import org.example.expense_tracker_api.repository.ExpenseRepository;
+import jakarta.validation.Valid;
+import org.example.expense_tracker_api.dto.ExpenseRequest;
+import org.example.expense_tracker_api.dto.ExpenseResponse;
+import org.example.expense_tracker_api.service.ExpenseService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class ExpenseController {
-    private final ExpenseRepository expenseRepository;
+    private final ExpenseService expenseService;
 
-    public ExpenseController(ExpenseRepository expenseRepository) {
-        this.expenseRepository = expenseRepository;
+    public ExpenseController(ExpenseService expenseService) {
+
+        this.expenseService = expenseService;
     }
 
     @PostMapping("/expenses")
-    public Expense createExpense(
-            @RequestBody Expense expense
+    public ExpenseResponse createExpense(
+            @Valid @RequestBody ExpenseRequest request
     ){
-        return expenseRepository.save(expense);
+        return expenseService.addExpense(request);
     }
 
     @GetMapping("/expenses")
-    public List<Expense> getAllExpenses(){
-        return expenseRepository.findAll();
+    public List<ExpenseResponse> getAllExpenses() {
+        return expenseService.getAllExpenses();
     }
 
     @DeleteMapping("/expenses/{id}")
     public void delete(
             @PathVariable Long id
     ){
-      expenseRepository.deleteById(id);
+      expenseService.deleteExpense(id);
     }
 
     @GetMapping("/expenses/{id}")
-    public Expense getexpense(
+    public ExpenseResponse getexpense(
             @PathVariable Long id
     ){
-        return expenseRepository.findById(id).get();
+        return expenseService.getExpenseById(id);
     }
 
     @PutMapping("/expenses/{id}")
-    public Expense updatedExpense(
+    public ExpenseResponse updatedExpense(
             @PathVariable Long id,
-            @RequestBody Expense updatedExpense
+            @RequestBody ExpenseRequest request
     ){
-      Expense expense = expenseRepository.findById(id).get();
-        expense.setTitle(updatedExpense.getTitle());
-        expense.setAmount(updatedExpense.getAmount());
-        expense.setCategory(updatedExpense.getCategory());
-        expense.setDate(updatedExpense.getDate());
-
-        return expenseRepository.save(expense);
+      return expenseService.updateExpense(id,request);
     }
 }

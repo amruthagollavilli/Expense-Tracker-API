@@ -1,7 +1,7 @@
 package org.example.expense_tracker_api.controller;
-
-import org.example.expense_tracker_api.entity.User;
-import org.example.expense_tracker_api.repository.UserRepository;
+import org.example.expense_tracker_api.dto.UserRequest;
+import org.example.expense_tracker_api.dto.UserResponse;
+import org.example.expense_tracker_api.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,21 +11,21 @@ import java.util.List;
 
 @RestController
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping("/users")
-    public User createUser(
-         @RequestBody User user
+    public UserResponse createUser(
+         @RequestBody UserRequest request
     ){
-        return userRepository.save(user);
+        return userService.AddUser(request);
     }
+
     @GetMapping("/users")
-    public List<User> getAllUser(){
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers(){
+        return userService.getAllUsers();
     }
 }

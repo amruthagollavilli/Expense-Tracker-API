@@ -2,6 +2,7 @@ package org.example.expense_tracker_api.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.expense_tracker_api.dto.ExpenseResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "expense_data")
-public class Expense {
+public class Expense extends ExpenseResponse {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,15 +23,7 @@ public class Expense {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    public Expense() {
-    }
-    public Expense(String title, BigDecimal amount, String category,
-                   LocalDate date, User user) {
-        this.title = title;
-        this.amount = amount;
-        this.category = category;
-        this.date = date;
-        this.user = user;
-    }
+    public Expense(){
 
+    }
 }
