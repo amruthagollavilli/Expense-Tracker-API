@@ -13,13 +13,13 @@ import java.math.BigDecimal;
 @Getter
 public class ExpenseRequest {
   @NotBlank(message = "title is required")
-  private String Title;
+  private String title;
 
   @NotNull(message = "amount is required")
   @Positive(message = "Amount must be greater than zero")
-  private BigDecimal Amount;
+  private BigDecimal amount;
 
   @NotBlank(message =  "Category is required")
-  private String Category;
+  private String category;
 
 }

@@ -2,7 +2,7 @@ spring:
     datasource:
         url: jdbc:postgresql://localhost:5432/expense_tracker
         username: postgres
-        password: My_Password
+        password: My_password
         driver-class-name: org.postgresql.Driver
     jpa:
         hibernate:
